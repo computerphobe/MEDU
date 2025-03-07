@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Educational Map Geocoder</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <!-- Include Mapbox CSS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.9.2/mapbox-gl.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+        }
+
+        header {
+            background: #3f51b5;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .map-container {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #map {
+            width: 95%;
+            height: 90%;
+            border: 2px solid #3f51b5;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .map-controls h2 {
+            margin: 0 0 1rem;
+            font-size: 1.4rem;
+            color: #3f51b5;
+            border-bottom: 2px solid #3f51b5;
+            padding-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #3f51b5;
+            color: white;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer a {
+            color: #ffeb3b;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Educational Map Geocoder</h1>
+</header>
+<div class="container">
+    <div class="map-container">
+        <div class="map-controls">
+            <h2>Search Location</h2>
+            <!-- Geocoder control will be injected here -->
+        </div>
+        <div id="map">
+        </div>
+    </div>
+</div>
+<footer>
+    <p>&copy; 2025 Educational Mapping Portal. All rights reserved. | <a href="#">Privacy Policy</a></p>
+</footer>
+
+<!-- Include Mapbox GL JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.2/mapbox-gl.js"></script>
+<!-- Include Mapbox Geocoder plugin -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.3/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.3/mapbox-gl-geocoder.css" type="text/css">
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYWtzaGF5MDc3IiwiYSI6ImNtNXFidmtrdzA4eXEybHNicDJkMHN3b3YifQ.CNd3eS-ZdbBYqSVZOg8Frg';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [70.79675358948003, 22.369217507520936], // Longitude, Latitude
+        zoom: 13
+    });
+
+    // Add the Geocoder control
+    const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl
+    });
+    document.querySelector('.map-controls').appendChild(geocoder.onAdd(map));
+
+    // Fetch locations from the server and add markers
+    fetch('/api/locations/')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(function(location) {
+            const marker = new mapboxgl.Marker()
+                .setLngLat([location.lon, location.lat])
+                .setPopup(new mapboxgl.Popup().setHTML(
+                    `<h3><a href="location" target="_blank">${location.name}</a></h3>`
+                ))
+                .addTo(map);
+        });
+    })
+    .catch(error => console.error('Error fetching location data:', error));
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #f5f7fa, #c3cfe2);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .dashboard {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .dashboard .banner {
+            flex: 1;
+            background: url('https://cdn.pixabay.com/photo/2016/11/14/03/16/abstract-1822218_960_720.png') no-repeat center center;
+            background-size: cover;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        .dashboard .banner h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .dashboard .banner p {
+            font-size: 1.5rem;
+        }
+        .dashboard .details {
+            flex: 2;
+            padding: 30px;
+        }
+        .details h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .details p {
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+        .details .highlight {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff5722;
+        }
+        .details a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 25px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .details a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Banner Section -->
+        <div class="banner">
+            <h1>🏫 {{ university.name }}</h1>
+            <p>Shaping Future Leaders</p>
+        </div>
+
+        <!-- Details Section -->
+        <div class="details">
+            <h2>University Information</h2>
+            <p><strong>Type:</strong> <span class="highlight">{{ university.type }}</span></p>
+            <p><strong>Total Programs:</strong> {{ university.total_programs }}</p>
+            <p><strong>Approximate Students:</strong> <span class="highlight">{{ university.approximate_students }}</span></p>
+            <p><strong>NAAC Grade:</strong> <span class="highlight">{{ university.naac_grade }}</span></p>
+            <p><strong>Location:</strong> {{ university.location }}</p>
+            <p><strong>Contact:</strong> {{ university.contact_number }}</p>
+            <a href="{{ university.website }}" target="_blank">Visit Website</a>
+        </div>
+    </div>
+</body>
+</html>

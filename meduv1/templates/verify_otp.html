@@ -1,0 +1,10 @@
+<form method="POST" class="bg-white p-6 rounded-lg shadow-md max-w-sm mx-auto">
+    {% csrf_token %}
+    <label class="block text-gray-700 font-semibold mb-2">Enter OTP:</label>
+    <input type="text" name="otp_code" required 
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <button type="submit" 
+        class="w-full bg-blue-600 text-white font-semibold py-2 mt-4 rounded-lg hover:bg-blue-700 transition">
+        Verify
+    </button>
+</form>

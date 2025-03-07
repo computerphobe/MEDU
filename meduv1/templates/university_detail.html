@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ university.name }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Fixed Navbar at the Top -->
+    <nav class="fixed top-0 left-0 w-full bg-white shadow-md z-50 py-3">
+        <div class="max-w-5xl mx-auto flex justify-around text-gray-600 text-sm font-semibold">
+            <button onclick="showSection('course-section')" class="hover:text-indigo-600">📚 Course</button>
+            <button onclick="showSection('fees-section')" class="hover:text-indigo-600">💰 Fees</button>
+            <button onclick="showSection('placements-section')" class="hover:text-indigo-600">💼 Placements</button>
+            <button onclick="showSection('cutoff-section')" class="hover:text-indigo-600">🎯 Cutoff</button>
+            <button onclick="showSection('infrastructure-section')" class="hover:text-indigo-600">🏫 Infrastructure</button>
+            <button onclick="showSection('affiliations-section')" class="hover:text-indigo-600">📜 Affiliations</button>
+        </div>
+    </nav>
+
+    <!-- Sticky Header with University Name & Ranking -->
+    <header class="mt-14 bg-white shadow-md py-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center px-6">
+            <h1 class="text-2xl font-bold text-indigo-600">{{ university.name }}</h1>
+            <p class="text-gray-700 font-semibold">
+                🏆 {{ university.national_ranking|default:"Not Ranked" }} | 🌎 {{ university.global_ranking|default:"Not Ranked" }}
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-5xl mx-auto mt-6 p-6 bg-white shadow-lg rounded-lg">
+        <!-- Sections (Initially Only One is Visible) -->
+        <div id="course-section" class="section">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">📚 Course Details</h2>
+            <ul class="list-disc list-inside text-gray-600">
+                <li><strong>Course:</strong> {{ university.course|default:"No Data" }}</li>
+                <li><strong>Eligibility:</strong> {{ university.eligibility|default:"Not Specified" }}</li>
+                <li><strong>Application Date:</strong> {{ university.application_date|default:"Not Mentioned" }}</li>
+            </ul>
+        </div>
+
+        <div id="fees-section" class="section hidden">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">💰 Fees & Scholarships</h2>
+            <ul class="list-disc list-inside text-gray-600">
+                <li><strong>Tuition Fees:</strong> {{ university.fees|default:"Not Available" }}</li>
+                <li><strong>Hostel Fees:</strong> {{ university.hostel_fees|default:"Not Available" }}</li>
+                <li><strong>Scholarships:</strong> {{ university.scholarships|default:"No Data" }}</li>
+                <li><strong>Scholarship Amount:</strong> {{ university.scholarship_amount|default:"Not Specified" }}</li>
+                <li><strong>Bank Loan:</strong> {{ university.bank_loan|default:"No Data" }}</li>
+            </ul>
+        </div>
+
+        <div id="placements-section" class="section hidden">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">💼 Placements & Rankings</h2>
+            <ul class="list-disc list-inside text-gray-600">
+                <li><strong>Placement Percentage:</strong> {{ university.placement_percentage|default:"No Data" }}%</li>
+                <li><strong>Highest Package:</strong> {{ university.highest_package|default:"Not Available" }}</li>
+                <li><strong>Average Package:</strong> {{ university.average_package|default:"Not Available" }}</li>
+                <li><strong>Top Recruiters:</strong> {{ university.top_recruiters|default:"No Data" }}</li>
+            </ul>
+        </div>
+
+        <div id="cutoff-section" class="section hidden">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">🎯 Cutoff & Admission</h2>
+            <ul class="list-disc list-inside text-gray-600">
+                <li><strong>Round 1 Cutoff:</strong> {{ university.round_1_closing_cutoff|default:"N/A" }}</li>
+                <li><strong>General Cutoff:</strong> {{ university.general|default:"N/A" }}</li>
+                <li><strong>OBC Cutoff:</strong> {{ university.Obc|default:"N/A" }}</li>
+                <li><strong>SC Cutoff:</strong> {{ university.sc|default:"N/A" }}</li>
+                <li><strong>ST Cutoff:</strong> {{ university.st|default:"N/A" }}</li>
+            </ul>
+        </div>
+
+        <div id="infrastructure-section" class="section hidden">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">🏫 Infrastructure & Facilities</h2>
+            <ul class="list-disc list-inside text-gray-600">
+                <li><strong>Campus Area:</strong> {{ university.campus_area|default:"N/A" }}</li>
+                <li><strong>Hostel Facility:</strong> {{ university.hostel_facility|default:"No" }}</li>
+                <li><strong>Library Facility:</strong> {{ university.library_facility|default:"No" }}</li>
+                <li><strong>Sports Facility:</strong> {{ university.sports_facility|default:"No" }}</li>
+                <li><strong>Medical Facility:</strong> {{ university.medical_facility|default:"No" }}</li>
+            </ul>
+        </div>
+
+        <div id="affiliations-section" class="section hidden">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">📜 Affiliations & Ratings</h2>
+            <ul class="list-disc list-inside text-gray-600">
+                <li><strong>Affiliations:</strong> {{ university.affiliations|default:"Not Mentioned" }}</li>
+                <li><strong>Collaborations:</strong> {{ university.collaborations|default:"No Collaborations" }}</li>
+                <li><strong>NAAC Rating:</strong> {{ university.naac_rating|default:"Not Available" }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            // Show the selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+    </script>
+    {% block content %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'apply_now' university.id %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            Apply Now
+        </a>
+    {% else %}
+        <p class="text-gray-700">
+            <a href="{% url 'login' %}" class="text-blue-600 hover:underline">Login</a> to apply.
+        </p>
+    {% endif %}
+    {% endblock %}
+</body>
+</html>

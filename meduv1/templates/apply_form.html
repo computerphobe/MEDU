@@ -1,0 +1,22 @@
+{% block content %}
+<h2 class="text-2xl font-bold text-gray-800 mb-4">Apply to {{ university.name }}</h2>
+
+<form method="POST" class="bg-white shadow-md rounded-lg p-6 space-y-4">
+    {% csrf_token %}
+    
+    <div>
+        <label for="course" class="block text-gray-700 font-semibold">Select Course:</label>
+        {{ form.course }}
+    </div>
+
+    <div>
+        <label for="statement_of_purpose" class="block text-gray-700 font-semibold">Statement of Purpose:</label>
+        {{ form.statement_of_purpose }}
+    </div>
+
+    <button type="submit" 
+        class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition">
+        Submit Application
+    </button>
+</form>
+{% endblock %}
